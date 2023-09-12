@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -35,9 +37,29 @@ public class OlegConfig {
                 User.withDefaultPasswordEncoder()
                         .username("Oleg")
                         .password("1234")
-                        .roles("Admin")
+                        .roles("USER")
+                        .build();
+        UserDetails admin =
+                User.withDefaultPasswordEncoder()
+                        .username("admin")
+                        .password("admin")
+                        .roles("USER", "ADMIN")
                         .build();
 
-        return new InMemoryUserDetailsManager(user);
+//        UserDetails admin =  User.withUsername("admin")
+//                .password(passwordEncoder.encode("admin"))
+//                .roles("USER", "ADMIN")
+//                .build();
+
+
+
+        return new InMemoryUserDetailsManager(user, admin);
+
     }
+
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//        return encoder;
+//    }
 }
